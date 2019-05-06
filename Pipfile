@@ -10,6 +10,9 @@ gensim = "*"
 pyldavis = "*"
 ipython = "*"
 jupyterlab = "*"
+python-dotenv = "*"
+pandas = "*"
+google-cloud-storage = "*"
 
 [dev-packages]
 
