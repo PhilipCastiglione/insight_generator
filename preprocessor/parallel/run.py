@@ -26,17 +26,17 @@ bucket_name = os.getenv("GCP_BUCKET_NAME")
 project_id = os.getenv("GCP_PROJECT_ID")
 storage_account_service_email = os.getenv("GCP_STORAGE_SERVICE_ACCOUNT_EMAIL")
 
-print("[INFO] {} instances to spin up".format(arg.scale)
+print("[INFO] {} instances to spin up".format((arg.scale))
 
 instance_names = []
 for i in range(arg.scale):
     instance_name = "parallel_{}_{}".format(str(i), timestamp)
     instance_names.append(instance_name)
     startup_script_path = os.path.join(os.path.dirname(__file__), 'startup-script.sh')
-    startup_script_vars = "export BUCKET_NAME=\"{}\"\n".format(bucket_name)
-    # TODO: calculate lines
-    startup_script_vars += "export START_LINE=\"{}\"\n".format(bucket_name)
-    startup_script_vars += "export END_LINE=\"{}\"\n".format(bucket_name)
+    startup_script_vars = "export TIMESTAMP=\"{}\"\n".format(timestamp)
+    startup_script_vars += "export BUCKET_NAME=\"{}\"\n".format(bucket_name)
+    startup_script_vars += "export INSTANCE_NUMBER=\"{}\"\n".format(str(i))
+    startup_script_vars += "export SCALE=\"{}\"\n".format(str(arg.scale))
     startup_script = startup_script_vars + open(startup_script_path, 'r').read()
 
     config = {

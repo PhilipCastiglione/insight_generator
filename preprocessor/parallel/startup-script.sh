@@ -1,7 +1,8 @@
 # PROVIDED VARS BY RUN SCRIPT:
+#  * TIMESTAMP
 #  * BUCKET_NAME
-#  * START_LINE
-#  * END_LINE
+#  * INSTANCE_NUMBER
+#  * SCALE
 cd ~
 
 export TARRED_CODE="parallel.tar.gz"
@@ -11,5 +12,5 @@ gsutil cp $SOURCE_CODE_PATH $TARRED_CODE
 
 tar -xzf $TARRED_CODE
 
-./sequential/controller.sh $BUCKET_NAME $START_LINE $END_LINE
+./sequential/controller.sh $TIMESTAMP $BUCKET_NAME $INSTANCE_NUMBER $SCALE
 
