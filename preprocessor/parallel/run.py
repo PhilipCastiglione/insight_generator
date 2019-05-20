@@ -87,5 +87,18 @@ for instance_name in instance_names:
             zone=zone,
             instance=instance_name).execute()
 
+print("[INFO] fetching preprocesed chunks")
+os.system("mkdir parallel/data/{}".format(timestamp))
+for i in range(arg.scale):
+    data_url = "gs://{}/{}/preprocessed_data_{}.csv".format(
+            bucket_name, timestamp, str(i))
+
+    os.system("gsutil cp {} ./parallel/data/{}/{}".format(data_url, timestamp, str(i)))
+
+reduce_step_start = int(time.time())
+os.system("cat {} > parallel/data/{}/preprocessed_data.csv".format(" ".join(
+    [str(i) for i in range(arg.scale)]))
+print("[INFO] reduce completed in: {}".format(reduce_step_start - int(time.time())
+
 print("[INFO] complete")
 

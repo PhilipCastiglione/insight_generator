@@ -37,7 +37,5 @@ gsutil cp preprocessed_data.csv $PREPROCESSED_DATA
 
 echo "finished transferring data: $(date "+%Y%m%d_%H%M%S")" >> measurement.txt
 
-# TODO: will need to rejoin files if we are the last to finish
-
 gsutil cp measurement.txt $MEASUREMENTS
 
