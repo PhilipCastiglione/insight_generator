@@ -1,5 +1,3 @@
-# TODO: create iam access role to access bucket
-# TODO: create instance with IAM access to our storage bucket
 import os
 import time
 
@@ -8,9 +6,8 @@ import googleapiclient.discovery
 
 load_dotenv(verbose=True)
 
-print("[INFO] using glcoud to authenticate with GCP")
-
-os.system("gcloud auth application-default login")
+#print("[INFO] using glcoud to authenticate with GCP")
+#os.system("gcloud auth application-default login")
 
 compute = googleapiclient.discovery.build("compute", "v1")
 
@@ -23,9 +20,10 @@ timestamp = str(int(time.time()))
 instance_name = "sequential" + timestamp
 bucket_name = os.getenv("GCP_BUCKET_NAME")
 project_id = os.getenv("GCP_PROJECT_ID")
+storage_account_service_email = os.getenv("GCP_STORAGE_SERVICE_ACCOUNT_EMAIL")
 
 startup_script_path = os.path.join(os.path.dirname(__file__), 'startup-script.sh')
-startup_script_vars = "BUCKET_NAME=${};;".format(bucket_name)
+startup_script_vars = "export BUCKET_NAME=\"{}\"\n".format(bucket_name)
 startup_script = startup_script_vars + open(startup_script_path, 'r').read()
 
 config = {
@@ -44,13 +42,15 @@ config = {
             {"type": "ONE_TO_ONE_NAT", "name": "External NAT"}
         ]
     }],
-    "serviceAccounts": [{
-        "email": "default",
-        "scopes": [
-            "https://www.googleapis.com/auth/devstorage.read_write",
-            "https://www.googleapis.com/auth/logging.write"
-        ]
-    }],
+    "serviceAccounts": [
+        {
+            "email": storage_account_service_email,
+            "scopes": [
+                "https://www.googleapis.com/auth/devstorage.read_only",
+                "https://www.googleapis.com/auth/devstorage.read_write"
+            ]
+        }
+    ],
     'metadata': {
         'items': [{
             'key': 'startup-script',
@@ -74,3 +74,4 @@ compute.instances().delete(
         instance=instance_name).execute()
 
 print("[INFO] complete")
+
