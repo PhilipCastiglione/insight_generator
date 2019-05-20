@@ -19,13 +19,14 @@ source_disk_image = image_response["selfLink"]
 zone = os.getenv("GCP_ZONE")
 machine_type = "zones/{}/machineTypes/n1-standard-1".format(zone)
 
-startup_script_path = os.path.join(os.path.dirname(__file__), 'startup-script.sh')
-startup_script = open(startup_script_path, 'r').read()
-
 timestamp = str(int(time.time()))
 instance_name = "sequential" + timestamp
 bucket_name = os.getenv("GCP_BUCKET_NAME")
 project_id = os.getenv("GCP_PROJECT_ID")
+
+startup_script_path = os.path.join(os.path.dirname(__file__), 'startup-script.sh')
+startup_script_vars = "BUCKET_NAME=${};;".format(bucket_name)
+startup_script = startup_script_vars + open(startup_script_path, 'r').read()
 
 config = {
     "name": instance_name,
