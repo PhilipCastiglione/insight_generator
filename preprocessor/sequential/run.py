@@ -6,8 +6,8 @@ import googleapiclient.discovery
 
 load_dotenv(verbose=True)
 
-#print("[INFO] using glcoud to authenticate with GCP")
-#os.system("gcloud auth application-default login")
+print("[INFO] using glcoud to authenticate with GCP")
+os.system("gcloud auth application-default login")
 
 compute = googleapiclient.discovery.build("compute", "v1")
 
