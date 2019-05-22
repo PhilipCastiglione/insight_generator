@@ -12,5 +12,5 @@ gsutil cp $SOURCE_CODE_PATH $TARRED_CODE
 
 tar -xzf $TARRED_CODE
 
-./sequential/controller.sh $TIMESTAMP $BUCKET_NAME $INSTANCE_NUMBER $SCALE
+./parallel/controller.sh $TIMESTAMP $BUCKET_NAME $INSTANCE_NUMBER $SCALE
 
